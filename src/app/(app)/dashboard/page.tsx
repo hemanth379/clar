@@ -191,7 +191,7 @@ function AIBottomSheet({ preview, projects, onConfirm, onCancel }: {
             </div>
   
             {/* Date + Time */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
+            <div style={{ display: 'flex', flexDirection: 'column' as const, gap: 12 }}>
               <div>
                 <label style={{ fontSize: 12, fontWeight: 600, color: '#888', display: 'block', marginBottom: 6 }}>Date</label>
                 <input type="date" value={dueDate} onChange={e => setDueDate(e.target.value)} style={inputStyle} />
