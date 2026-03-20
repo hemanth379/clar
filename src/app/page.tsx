@@ -9,6 +9,26 @@ export default function LandingPage() {
       WebkitFontSmoothing: 'antialiased',
     }}>
 
+      <style>{`
+        @media (max-width: 767px) {
+          .nav-inner { padding: 0 20px !important; }
+          .hero-section { padding: 60px 20px 52px !important; }
+          .features-section { padding: 60px 20px !important; }
+          .features-header h2 { font-size: 26px !important; }
+          .features-header p { max-width: 100% !important; }
+          .feature-grid { grid-template-columns: 1fr !important; }
+          .feature-large-card { grid-column: span 1 !important; grid-template-columns: 1fr !important; gap: 24px !important; padding: 24px 20px !important; }
+          .how-it-works-section { padding: 60px 20px !important; }
+          .how-it-works-steps { grid-template-columns: 1fr 1fr !important; gap: 24px !important; }
+          .why-clar-section { padding: 60px 20px !important; }
+          .why-clar-grid { grid-template-columns: 1fr !important; }
+          .cta-section { padding: 60px 20px 80px !important; }
+          .footer-inner { flex-direction: column !important; align-items: flex-start !important; padding: 24px 20px !important; gap: 10px !important; }
+          .demo-card { padding: 18px 18px !important; }
+          .demo-result-row { flex-wrap: wrap !important; gap: 6px !important; }
+        }
+      `}</style>
+
       {/* ── NAVBAR ─────────────────────────────── */}
       <nav style={{
         position: 'sticky', top: 0, zIndex: 50,
@@ -16,7 +36,7 @@ export default function LandingPage() {
         backdropFilter: 'blur(16px)',
         borderBottom: '1px solid #f0f0f0',
       }}>
-        <div style={{
+        <div className="nav-inner" style={{
           maxWidth: 1080, margin: '0 auto',
           padding: '0 40px', height: 60,
           display: 'flex', alignItems: 'center', justifyContent: 'space-between',
@@ -38,7 +58,7 @@ export default function LandingPage() {
             <Link href="/login" style={{
               fontSize: 13.5, fontWeight: 500, color: '#666',
               textDecoration: 'none', padding: '7px 14px',
-              borderRadius: 8, transition: 'all 0.15s',
+              borderRadius: 8,
             }}>Sign in</Link>
             <Link href="/register" style={{
               fontSize: 13.5, fontWeight: 600, color: 'white',
@@ -50,7 +70,7 @@ export default function LandingPage() {
       </nav>
 
       {/* ── HERO ───────────────────────────────── */}
-      <section style={{
+      <section className="hero-section" style={{
         textAlign: 'center',
         padding: '88px 24px 72px',
         maxWidth: 760, margin: '0 auto',
@@ -66,7 +86,7 @@ export default function LandingPage() {
         </div>
 
         <h1 style={{
-          fontSize: 'clamp(28px, 3.5vw, 48px)',
+          fontSize: 'clamp(28px, 5vw, 48px)',
           fontWeight: 500,
           letterSpacing: '-1px',
           lineHeight: 1.15,
@@ -92,7 +112,10 @@ export default function LandingPage() {
           Clar structures it automatically — date, priority, action steps.
         </p>
 
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10 }}>
+        <div style={{
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          gap: 10, flexWrap: 'wrap',
+        }}>
           <Link href="/register" style={{
             fontSize: 14, fontWeight: 600, color: 'white',
             background: '#4f46e5', textDecoration: 'none',
@@ -105,7 +128,7 @@ export default function LandingPage() {
         </div>
 
         {/* Demo card */}
-        <div style={{
+        <div className="demo-card" style={{
           maxWidth: 580, margin: '52px auto 0',
           background: 'white', border: '1px solid #e8e8e8',
           borderRadius: 16, padding: '24px 28px',
@@ -125,7 +148,7 @@ export default function LandingPage() {
           <div style={{ fontSize: 12, color: '#ccc', textAlign: 'center', marginBottom: 14 }}>
             ↓ Clar structures it
           </div>
-          <div style={{
+          <div className="demo-result-row" style={{
             display: 'flex', alignItems: 'center', gap: 10,
             background: '#f5f3ff', border: '1px solid #ddd6fe',
             borderRadius: 9, padding: '12px 16px',
@@ -145,15 +168,15 @@ export default function LandingPage() {
       </section>
 
       {/* ── FEATURES ───────────────────────────── */}
-      <section style={{
+      <section className="features-section" style={{
         maxWidth: 1080, margin: '0 auto',
         padding: '80px 40px',
       }}>
-        <div style={{ marginBottom: 56 }}>
+        <div className="features-header" style={{ marginBottom: 56 }}>
           <div style={{ fontSize: 11.5, fontWeight: 700, color: '#4f46e5', letterSpacing: '0.8px', textTransform: 'uppercase', marginBottom: 12 }}>
             Everything you need
           </div>
-          <h2 style={{ fontSize: 'clamp(24px, 3vw, 34px)', fontWeight: 600, letterSpacing: '-0.8px', color: '#0a0a0a', lineHeight: 1.2, marginBottom: 12 }}>
+          <h2 style={{ fontSize: 'clamp(22px, 3vw, 34px)', fontWeight: 600, letterSpacing: '-0.8px', color: '#0a0a0a', lineHeight: 1.2, marginBottom: 12 }}>
             Built for people who<br />want to get things done
           </h2>
           <p style={{ fontSize: 15.5, color: '#777', lineHeight: 1.65, maxWidth: 440 }}>
@@ -162,10 +185,10 @@ export default function LandingPage() {
         </div>
 
         {/* Feature grid */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
+        <div className="feature-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
 
           {/* Large card — AI */}
-          <div style={{
+          <div className="feature-large-card" style={{
             gridColumn: 'span 2',
             background: 'white', border: '1px solid #e8e8e8',
             borderRadius: 16, padding: '36px 40px',
@@ -269,7 +292,7 @@ export default function LandingPage() {
       </section>
 
       {/* ── HOW IT WORKS ───────────────────────── */}
-      <section style={{
+      <section className="how-it-works-section" style={{
         background: 'white',
         borderTop: '1px solid #f0f0f0',
         borderBottom: '1px solid #f0f0f0',
@@ -279,13 +302,13 @@ export default function LandingPage() {
           <div style={{ fontSize: 11.5, fontWeight: 700, color: '#4f46e5', letterSpacing: '0.8px', textTransform: 'uppercase', marginBottom: 12 }}>
             How it works
           </div>
-          <h2 style={{ fontSize: 'clamp(24px, 3vw, 34px)', fontWeight: 600, letterSpacing: '-0.8px', color: '#0a0a0a', marginBottom: 10 }}>
+          <h2 style={{ fontSize: 'clamp(22px, 3vw, 34px)', fontWeight: 600, letterSpacing: '-0.8px', color: '#0a0a0a', marginBottom: 10 }}>
             Up and running in minutes
           </h2>
           <p style={{ fontSize: 15, color: '#777', marginBottom: 56 }}>
             No onboarding wizard. No setup checklist. Just sign up and start.
           </p>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 40 }}>
+          <div className="how-it-works-steps" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 40 }}>
             {[
               { n: '01', title: 'Create your account', desc: 'Sign up in seconds. Your Inbox project is ready immediately.' },
               { n: '02', title: 'Add your tasks', desc: 'Type naturally or use AI to structure tasks automatically.' },
@@ -307,14 +330,14 @@ export default function LandingPage() {
       </section>
 
       {/* ── WHY CLAR ───────────────────────────── */}
-      <section style={{ maxWidth: 1080, margin: '0 auto', padding: '80px 40px' }}>
+      <section className="why-clar-section" style={{ maxWidth: 1080, margin: '0 auto', padding: '80px 40px' }}>
         <div style={{ fontSize: 11.5, fontWeight: 700, color: '#4f46e5', letterSpacing: '0.8px', textTransform: 'uppercase', marginBottom: 12 }}>
           Why Clar
         </div>
-        <h2 style={{ fontSize: 'clamp(24px, 3vw, 34px)', fontWeight: 600, letterSpacing: '-0.8px', color: '#0a0a0a', marginBottom: 48 }}>
+        <h2 style={{ fontSize: 'clamp(22px, 3vw, 34px)', fontWeight: 600, letterSpacing: '-0.8px', color: '#0a0a0a', marginBottom: 48 }}>
           Designed around how<br />people actually work
         </h2>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 14 }}>
+        <div className="why-clar-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 14 }}>
           {[
             { value: 'AI-first', label: 'Natural language input — type how you think, not how a form expects.' },
             { value: '3 views', label: 'List, Kanban, Calendar. Switch anytime. Your data stays the same.' },
@@ -334,13 +357,13 @@ export default function LandingPage() {
       </section>
 
       {/* ── FINAL CTA ──────────────────────────── */}
-      <section style={{
+      <section className="cta-section" style={{
         textAlign: 'center',
         padding: '80px 24px 100px',
         maxWidth: 560, margin: '0 auto',
       }}>
         <h2 style={{
-          fontSize: 'clamp(30px, 4vw, 46px)',
+          fontSize: 'clamp(28px, 4vw, 46px)',
           fontWeight: 600, letterSpacing: '-1px',
           color: '#0a0a0a', lineHeight: 1.15, marginBottom: 16,
         }}>
@@ -370,25 +393,29 @@ export default function LandingPage() {
       {/* ── FOOTER ─────────────────────────────── */}
       <footer style={{
         borderTop: '1px solid #f0f0f0',
-        padding: '28px 40px',
-        maxWidth: 1080, margin: '0 auto',
-        display: 'flex', alignItems: 'center',
-        justifyContent: 'space-between', flexWrap: 'wrap', gap: 14,
+        padding: '0',
       }}>
-        <Link href="/" style={{
-          display: 'flex', alignItems: 'center', gap: 7,
-          textDecoration: 'none', color: '#111',
-          fontSize: 14, fontWeight: 700,
+        <div className="footer-inner" style={{
+          maxWidth: 1080, margin: '0 auto',
+          padding: '28px 40px',
+          display: 'flex', alignItems: 'center',
+          justifyContent: 'space-between', flexWrap: 'wrap', gap: 14,
         }}>
-          <div style={{ width: 22, height: 22, borderRadius: 7, background: '#4f46e5', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 10, color: 'white' }}>✦</div>
-          Clar
-        </Link>
-        <p style={{ fontSize: 13, color: '#ccc' }}>Clarity for your day. Focus for your work.</p>
-        <div style={{ display: 'flex', gap: 20 }}>
-          {['Privacy', 'Terms'].map(l => (
-            <Link key={l} href="#" style={{ fontSize: 13, color: '#bbb', textDecoration: 'none' }}>{l}</Link>
-          ))}
-          <span style={{ fontSize: 13, color: '#bbb' }}>© 2026 Clar</span>
+          <Link href="/" style={{
+            display: 'flex', alignItems: 'center', gap: 7,
+            textDecoration: 'none', color: '#111',
+            fontSize: 14, fontWeight: 700,
+          }}>
+            <div style={{ width: 22, height: 22, borderRadius: 7, background: '#4f46e5', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 10, color: 'white' }}>✦</div>
+            Clar
+          </Link>
+          <p style={{ fontSize: 13, color: '#ccc' }}>Clarity for your day. Focus for your work.</p>
+          <div style={{ display: 'flex', gap: 20 }}>
+            {['Privacy', 'Terms'].map(l => (
+              <Link key={l} href="#" style={{ fontSize: 13, color: '#bbb', textDecoration: 'none' }}>{l}</Link>
+            ))}
+            <span style={{ fontSize: 13, color: '#bbb' }}>© 2026 Clar</span>
+          </div>
         </div>
       </footer>
 
