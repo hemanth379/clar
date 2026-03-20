@@ -135,69 +135,115 @@ function EditDrawer({ task, projects, onSave, onClose }: {
   )
 }
 
-function AIPreviewCard({ preview, projects, onConfirm, onCancel }: {
-  preview: any; projects: any[]; onConfirm: (data: any) => void; onCancel: () => void
-}) {
-  const [title, setTitle] = useState(preview.title)
-  const [priority, setPriority] = useState(preview.priority)
-  const [dueDate, setDueDate] = useState(preview.due_date || '')
-  const [dueTime, setDueTime] = useState(preview.due_time || '')
-  const [projectId, setProjectId] = useState(projects[0]?.id || '')
-
-  const inputStyle = {
-    padding: '8px 10px', fontSize: 13, fontFamily: 'inherit',
-    color: '#111', background: 'white', border: '1px solid #ddd6fe',
-    borderRadius: 8, outline: 'none', width: '100%', boxSizing: 'border-box' as const,
+function AIBottomSheet({ preview, projects, onConfirm, onCancel }: {
+    preview: any; projects: any[]; onConfirm: (data: any) => void; onCancel: () => void
+  }) {
+    const [title, setTitle] = useState(preview.title)
+    const [priority, setPriority] = useState(preview.priority)
+    const [dueDate, setDueDate] = useState(preview.due_date || '')
+    const [dueTime, setDueTime] = useState(preview.due_time || '')
+    const [projectId, setProjectId] = useState(projects[0]?.id || '')
+  
+    const inputStyle = {
+      padding: '10px 12px', fontSize: 14, fontFamily: 'inherit',
+      color: '#111', background: '#fafafa', border: '1px solid #e8e8e8',
+      borderRadius: 10, outline: 'none', width: '100%', boxSizing: 'border-box' as const,
+    }
+  
+    return (
+      <>
+        {/* Overlay */}
+        <div onClick={onCancel} style={{
+          position: 'fixed', inset: 0,
+          background: 'rgba(0,0,0,0.3)', zIndex: 40,
+        }} />
+        {/* Sheet */}
+        <div style={{
+          position: 'fixed', left: 0, right: 0, bottom: 0,
+          background: 'white', borderRadius: '20px 20px 0 0',
+          zIndex: 50, padding: '8px 20px 40px',
+          fontFamily: "'Manrope', -apple-system, sans-serif",
+          boxShadow: '0 -4px 32px rgba(0,0,0,0.12)',
+          maxHeight: '90vh', overflowY: 'auto',
+        }}>
+          {/* Handle */}
+          <div style={{ width: 36, height: 4, borderRadius: 2, background: '#e8e8e8', margin: '12px auto 20px' }} />
+  
+          {/* Header */}
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
+            <div>
+              <div style={{ fontSize: 16, fontWeight: 700, color: '#111', marginBottom: 2 }}>Add task</div>
+              <div style={{ fontSize: 12, color: '#8b5cf6', fontWeight: 500 }}>✦ AI parsed your input</div>
+            </div>
+            <button onClick={onCancel} style={{
+              background: '#f5f5f5', border: 'none', cursor: 'pointer',
+              color: '#888', borderRadius: '50%', width: 32, height: 32,
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              fontSize: 16,
+            }}>✕</button>
+          </div>
+  
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+            {/* Title */}
+            <div>
+              <label style={{ fontSize: 12, fontWeight: 600, color: '#888', display: 'block', marginBottom: 6 }}>Task title</label>
+              <input value={title} onChange={e => setTitle(e.target.value)} style={inputStyle} />
+            </div>
+  
+            {/* Date + Time */}
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
+              <div>
+                <label style={{ fontSize: 12, fontWeight: 600, color: '#888', display: 'block', marginBottom: 6 }}>Date</label>
+                <input type="date" value={dueDate} onChange={e => setDueDate(e.target.value)} style={inputStyle} />
+              </div>
+              <div>
+                <label style={{ fontSize: 12, fontWeight: 600, color: '#888', display: 'block', marginBottom: 6 }}>Time</label>
+                <input type="time" value={dueTime} onChange={e => setDueTime(e.target.value)} style={inputStyle} />
+              </div>
+            </div>
+  
+            {/* Priority */}
+            <div>
+              <label style={{ fontSize: 12, fontWeight: 600, color: '#888', display: 'block', marginBottom: 8 }}>Priority</label>
+              <div style={{ display: 'flex', gap: 8 }}>
+                {['low', 'medium', 'high'].map(p => (
+                  <button key={p} onClick={() => setPriority(p)} style={{
+                    flex: 1, padding: '10px 0', fontSize: 13, fontWeight: 600,
+                    fontFamily: 'inherit', textTransform: 'capitalize' as const,
+                    color: priority === p ? PRIORITY_TEXT[p] : '#aaa',
+                    background: priority === p ? PRIORITY_BG[p] : '#fafafa',
+                    border: priority === p ? `1.5px solid ${PRIORITY_COLOR[p]}60` : '1.5px solid #f0f0f0',
+                    borderRadius: 10, cursor: 'pointer',
+                  }}>{p}</button>
+                ))}
+              </div>
+            </div>
+  
+            {/* Project */}
+            <div>
+              <label style={{ fontSize: 12, fontWeight: 600, color: '#888', display: 'block', marginBottom: 6 }}>Project</label>
+              <select value={projectId} onChange={e => setProjectId(e.target.value)} style={{ ...inputStyle, cursor: 'pointer' }}>
+                {projects.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}
+              </select>
+            </div>
+  
+            {/* Add button */}
+            <button
+              onClick={() => onConfirm({ title, priority, due_date: dueDate || null, due_time: dueTime || null, project_id: projectId })}
+              disabled={!title.trim()}
+              style={{
+                width: '100%', padding: '14px', fontSize: 15, fontWeight: 600,
+                fontFamily: 'inherit', color: 'white', background: '#4f46e5',
+                border: 'none', borderRadius: 12, cursor: 'pointer', marginTop: 4,
+                opacity: !title.trim() ? 0.5 : 1,
+              }}>
+              Add task →
+            </button>
+          </div>
+        </div>
+      </>
+    )
   }
-
-  return (
-    <div style={{ background: '#f5f3ff', border: '1px solid #ddd6fe', borderRadius: 14, padding: '16px', marginBottom: 12 }}>
-      <div style={{ fontSize: 11, fontWeight: 700, color: '#7c3aed', letterSpacing: '0.5px', textTransform: 'uppercase' as const, marginBottom: 12 }}>
-        AI parsed — edit before saving
-      </div>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 12 }}>
-        <div>
-          <label style={{ fontSize: 11, fontWeight: 600, color: '#8b5cf6', display: 'block', marginBottom: 4 }}>Title</label>
-          <input value={title} onChange={e => setTitle(e.target.value)} style={inputStyle} />
-        </div>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
-          <div>
-            <label style={{ fontSize: 11, fontWeight: 600, color: '#8b5cf6', display: 'block', marginBottom: 4 }}>Date</label>
-            <input type="date" value={dueDate} onChange={e => setDueDate(e.target.value)} style={inputStyle} />
-          </div>
-          <div>
-            <label style={{ fontSize: 11, fontWeight: 600, color: '#8b5cf6', display: 'block', marginBottom: 4 }}>Time</label>
-            <input type="time" value={dueTime} onChange={e => setDueTime(e.target.value)} style={inputStyle} />
-          </div>
-          <div>
-            <label style={{ fontSize: 11, fontWeight: 600, color: '#8b5cf6', display: 'block', marginBottom: 4 }}>Priority</label>
-            <select value={priority} onChange={e => setPriority(e.target.value)} style={{ ...inputStyle, cursor: 'pointer' }}>
-              <option value="low">Low</option>
-              <option value="medium">Medium</option>
-              <option value="high">High</option>
-            </select>
-          </div>
-          <div>
-            <label style={{ fontSize: 11, fontWeight: 600, color: '#8b5cf6', display: 'block', marginBottom: 4 }}>Project</label>
-            <select value={projectId} onChange={e => setProjectId(e.target.value)} style={{ ...inputStyle, cursor: 'pointer' }}>
-              {projects.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}
-            </select>
-          </div>
-        </div>
-      </div>
-      <div style={{ display: 'flex', gap: 8 }}>
-        <button onClick={() => onConfirm({ title, priority, due_date: dueDate || null, due_time: dueTime || null, project_id: projectId })}
-          style={{ flex: 1, padding: '10px', fontSize: 14, fontWeight: 600, color: 'white', background: '#4f46e5', border: 'none', borderRadius: 10, cursor: 'pointer', fontFamily: 'inherit' }}>
-          Add task →
-        </button>
-        <button onClick={onCancel}
-          style={{ padding: '10px 16px', fontSize: 14, fontWeight: 600, color: '#666', background: 'white', border: '1px solid #e8e8e8', borderRadius: 10, cursor: 'pointer', fontFamily: 'inherit' }}>
-          Cancel
-        </button>
-      </div>
-    </div>
-  )
-}
 
 export default function DashboardPage() {
   const [user, setUser] = useState<any>(null)
@@ -352,7 +398,7 @@ export default function DashboardPage() {
 
         {/* AI Preview */}
         {aiPreview && (
-          <AIPreviewCard
+          <AIBottomSheet
             preview={aiPreview}
             projects={projects}
             onConfirm={(data) => addTask(data)}
